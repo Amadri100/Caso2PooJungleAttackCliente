@@ -31,6 +31,13 @@ public class DatosEnviar {
         return List.copyOf(entidadesDisponibles);
     }
 
+    public Jugador[] getJugadores() {
+        Jugador[] jugadores = new Jugador[2];
+        jugadores[0] = this.jugadorA;
+        jugadores[1] = this.jugadorB;
+        return jugadores;
+    }
+
     public Zona getZonaActual() {
         return zonaActual;
     }
