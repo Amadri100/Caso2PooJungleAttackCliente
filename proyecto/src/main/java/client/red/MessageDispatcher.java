@@ -18,6 +18,14 @@ import client.mensajes.MensajePrimerMensaje;
 import client.mensajes.MensajeServidor;
 import client.mensajes.MensajeStateUpdate;
 import client.mensajes.TipoMensaje;
+import client.modelo.AccionAnimalSelection;
+import client.modelo.AccionError;
+import client.modelo.AccionGameOver;
+import client.modelo.AccionGameStarted;
+import client.modelo.AccionMatchCreated;
+import client.modelo.AccionMatchJoined;
+import client.modelo.AccionPrimerMensaje;
+import client.modelo.AccionStateUpdate;
 import client.modelo.GameModel;
 
 public class MessageDispatcher {
@@ -33,6 +41,20 @@ public class MessageDispatcher {
 
     public MessageDispatcher(GameModel model) {
         Objects.requireNonNull(model, "El modelo es obligatorio.");
+        agregarListener(mensaje -> {
+            switch (mensaje.getTipo()) {
+                case CASO -> model.realizarAccion(new AccionError((MensajeCaso) mensaje));
+                case PRIMER_MENSAJE -> model.realizarAccion(new AccionPrimerMensaje((MensajePrimerMensaje) mensaje));
+                case MATCH_CREATED -> model.realizarAccion(new AccionMatchCreated((MensajeMatchCreated) mensaje));
+                case MATCH_JOINED -> model.realizarAccion(new AccionMatchJoined((MensajeMatchJoined) mensaje));
+                case ANIMAL_SELECTION -> model.realizarAccion(new AccionAnimalSelection((MensajeAnimalSelection) mensaje));
+                case GAME_STARTED -> model.realizarAccion(new AccionGameStarted((MensajeGameStarted) mensaje));
+                case STATE_UPDATE -> model.realizarAccion(new AccionStateUpdate((MensajeStateUpdate) mensaje));
+                case GAME_OVER -> model.realizarAccion(new AccionGameOver((MensajeGameOver) mensaje));
+                default -> { }
+            }
+        });
+        agregarListenerDesconexion(model::onDesconexion);
     }
 
     public MessageDispatcher(Consumer<MensajeServidor> listener) {
