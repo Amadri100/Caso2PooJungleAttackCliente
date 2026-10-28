@@ -1,4 +1,4 @@
 package client.constantes;
 
-public class NetworkConstants {
+public final class NetworkConstants {
 }
