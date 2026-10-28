@@ -86,6 +86,8 @@ src/
 #### Main
 + main(args : String[]) : static void
 
+Punto de entrada de la aplicación: inicializa `GameModel`, `MessageDispatcher` y `GameController`, y muestra `MainWindow` en el hilo de eventos de Swing. Al cerrar la ventana, desconecta la conexión activa.
+
 ### constantes
 
 #### Constants (Clase final)
